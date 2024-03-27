@@ -10,6 +10,8 @@ import CoreBluetooth
 
 struct DiscoveredPeripheral {
     var peripheral: CBPeripheral
+    var rssi: NSNumber
+    var timestamp: String
     var advertisedData: String
 }
 
@@ -63,12 +65,12 @@ class BLEScanner: NSObject, CBCentralManagerDelegate, ObservableObject {
         dateFormatter.dateFormat = "HH:mm:ss"
         let dateString = dateFormatter.string(from: Date(timeIntervalSince1970: timestampValue))
 
-        advertisedData = "actual rssi: \(RSSI) dB\n" + "Timestamp: \(dateString)\n" + advertisedData
+        // advertisedData = "actual rssi: \(RSSI) dB\n" + "Timestamp: \(dateString)\n" + advertisedData
 
         // If the peripheral is not already in the list
         if !discoveredPeripheralsSet.contains(peripheral) {
             // Add it to the list and the set
-            discoveredPeripherals.append(DiscoveredPeripheral(peripheral: peripheral, advertisedData: advertisedData))
+            discoveredPeripherals.append(DiscoveredPeripheral(peripheral: peripheral, rssi: RSSI, timestamp: dateString, advertisedData: advertisedData))
             discoveredPeripheralsSet.insert(peripheral)
             objectWillChange.send()
         } else {

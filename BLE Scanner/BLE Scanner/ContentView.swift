@@ -36,8 +36,8 @@ struct ContentView: View {
             List(bleScanner.discoveredPeripherals.filter {
                 self.searchText.isEmpty ? true : $0.peripheral.name?.lowercased().contains(self.searchText.lowercased()) == true
             }, id: \.peripheral.identifier) { discoveredPeripheral in
-                VStack(alignment: .leading) {
-                    Text(discoveredPeripheral.peripheral.name ?? "Unknown Device")
+                DisclosureGroup("\(discoveredPeripheral.peripheral.name ?? "Unknown Device")\t\tRSSI: \(discoveredPeripheral.rssi) dB\tTimestamp: \(discoveredPeripheral.timestamp)") {
+                    //Text(discoveredPeripheral.peripheral.name ?? "Unknown Device")
                     Text(discoveredPeripheral.advertisedData)
                         .font(.caption)
                         .foregroundColor(.gray)
